@@ -1,0 +1,25 @@
+[Unit]
+Description=ProInvestCoin daemon
+After=network.target
+
+[Service]
+User=proinvestcoin
+Group=proinvestcoin
+
+Type=forking
+PIDFile=/home/proinvestcoin/.proinvestcoin/proinvestcoind.pid
+ExecStart=/home/proinvestcoin/ProInvestCoin/proinvestcoind -daemon -pid=/home/proinvestcoin/.proinvestcoin/proinvestcoind.pid \
+-conf=/home/proinvestcoin/.proinvestcoin/proinvestcoin.conf -datadir=/home/proinvestcoin/.proinvestcoin
+
+ExecStop=/home/proinvestcoin/ProInvestCoin/proinvestcoin-cli -conf=/home/proinvestcoin/.proinvestcoin/proinvestcoin.conf stop
+ExecStop=/usr/bin/sleep 25
+
+Restart=no
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
